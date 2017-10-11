@@ -1,0 +1,625 @@
+Yarn
+
+The fundamental idea of YARN is to split up the functionalities of resource management and job scheduling/monitoring into separate daemons. The idea is to have a global ResourceManager (RM) and per-application ApplicationMaster (AM). An application is either a single job or a DAG of jobs.
+
+
+
+
+The ResourceManager and the NodeManager form the data-computation framework. The ResourceManager is the ultimate authority that arbitrates resources among all the applications in the system. The NodeManager is the per-machine framework agent who is responsible for containers, monitoring their resource usage (cpu, memory, disk, network) and reporting the same to the ResourceManager/Scheduler.
+
+
+The per-application ApplicationMaster is, in effect, a framework specific library and is tasked with negotiating resources from the ResourceManager and working with the NodeManager(s) to execute and monitor the tasks.
+
+
+
+The ResourceManager has two main components: Scheduler and ApplicationsManager.
+
+
+
+The Scheduler is responsible for allocating resources to the various running applications subject to familiar constraints of capacities, queues etc.
+
+The current schedulers such as the CapacityScheduler and the FairScheduler
+
+The ApplicationsManager is responsible for accepting job-submissions, negotiating the first container for executing the application specific ApplicationMaster and provides the service for restarting the ApplicationMaster container on failure. The per-application ApplicationMaster has the responsibility of negotiating appropriate resource containers from the Scheduler, tracking their status and monitoring for progress.
+
+
+In order to scale YARN beyond few thousands nodes, YARN supports the notion of Federation via the YARN Federation feature. Federation allows to transparently wire together multiple yarn (sub-)clusters, and make them appear as a single massive cluster. This can be used to achieve larger scale, and/or to allow multiple independent clusters to be used together for very large jobs, or for tenants who have capacity across all of them.
+
+
+https://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html
+
+What is Apache Tez?
+
+Apache Tez is another execution framework project from Apache Software Foundation and it is built on top of Hadoop YARN. It is considered as a more flexible and powerful successor of the mapreduce framework.
+
+
+Apache Tez Features:
+
+Tez provides,
+
+Performance gain over Map Reduce also Provides backward compatibility to Mapreduce framework.
+Optimal resource management
+Plan reconfiguration at run-time
+Dynamic physical data flow decisions
+Tez is client side application and it is very simple and easy to try it out. No deployments needed.
+By using Tez for data processing tasks, that earlier took multiple MR jobs, can be done now in a single Tez job. Tez also supports running of existing MR jobs on top of Tez framework to provide easy upgrade for existing mapreduce framework users.
+
+Tez Terminology:
+
+In Tez parlance a map-reduce job is a simple DAG (Directed Acyclic Graph). Map and Reduce tasks are the vertices in the execution graph. An edge connects every map task to every reduce task.
+
+
+Tez Advantages:
+
+Tez offers a customizable execution architecture that allows us to express complex computations as data flow graphs and allows for dynamic performance optimizations based on real information about the data and the resources required to process it.
+Tez increases the processing speed from GB’s to PB’s of data and 10’s to 1000’s of nodes when compared to mapreduce framework.
+The Apache Tez library allows developers to create Hadoop applications that integrate with YARN and perform well with Hadoop clusters.
+Benefits of Integrating Hive with Tez:
+
+Tez can translate complex SQL statements into highly optimized, purpose-built data processing graphs that strike the right balance between performance, throughput, and scalability across a wide range of use cases and data set sizes.
+Tez helps Hive in becoming into interactive from batch mode.
+Till hive-0.12 release, there is only mapreduce framework available in hive to convert hive queries into execution jobs on hadoop clusters. But first time in hive-0.13.1 release Tez execution engine framework is embedded into hive to improve the performance of complex hive queries.
+
+
+
+Pig
+
+1. What is a tuple?
+
+
+A tuple is an ordered set of fields and A field is a piece of data.
+
+
+2. What is a relation in Pig?
+
+
+A Pig relation is a bag of tuples. A Pig relation is similar to a table in a relational database,
+where the tuples in the bag correspond to the rows in a table. Unlike a relational table,
+however, Pig relations don’t require that every tuple contain the same number of fields or that the fields in the same position (column) have the same type.
+
+3. What does mean by unordered collection in a bag or in a relation?
+
+
+Fields in a relation can be referenced in two ways, by positional notation or by name (alias)
+
+Positional notation is generated by the system. Positional notation is indicated with the dollar sign ($) and begins with zero (0); for example, $0, $1, $2.
+Names are assigned by user using schema (or, in the case of the GROUP operator and some functions, by the system). We can use any name that is not a Pig keyword.
+
+6. What are the complex data types supported in Pig Latin?
+
+
+
+tuple	An ordered set of fields.	(19,2)
+
+
+bag	A collection of tuples.	{(19,2), (18,1)}
+
+map	A set of key value pairs.	[open#apache]
+
+ What are the features of bag?
+
+A bag can have duplicate tuples.
+A bag can have tuples with differing numbers of fields. However, if Pig tries to access a field that does not exist, a null value is substituted.
+A bag can have tuples with fields that have different data types. However, for Pig to
+effectively process bags, the schemas of the tuples within those bags should be the same.
+
+8. What is an outer bag?
+
+
+What is a Map?
+
+A map is a set of key/value pairs. Key values within a relation must be unique.
+
+
+What does FOREACH do?
+
+FOREACH is used to apply transformations to the data and to generate new data items. The name itself is indicating that for each element of a data bag, the respective action will be performed.
+
+Syntax: FOREACH bagname GENERATE expr1, expr2, …..
+
+The meaning of this statement is that the expressions mentioned after GENERATE will be applied to the current record of the data bag.
+
+
+What is difference between GROUP and COGROUP?
+
+The GROUP and COGROUP operators are identical. Both operators work with one or more relations. For readability GROUP is used in statements involving one relation and COGROUP is used in statements involving two or more relations. We can COGROUP up to
+but no more than 127 relations at a time.
+
+
+
+Sqoop
+http://hadooptutorial.info/sqoop-interview-cheat-sheet/
+
+
+
+http://hadooptutorial.info/apache-tez-successor-mapreduce-framework/
+
+
+Apache Impala
+
+Apache Impala (incubating) is the open source, native analytic database
+for Apache Hadoop. Impala is shipped by Cloudera, MapR, Oracle, and Amazon.
+
+Hive VS Impala
+Hive is batch based Hadoop MapReduce whereas Impala is more like MPP database. Hive supports complex types but Impala does not. Apache Hive is fault tolerant whereas Impala does not support fault tolerance. ... If a query execution fails in Impala it has to be started all over again
+
+Hive
+1. What is Metadata?
+
+Data about Data.
+
+
+2. What is Hive?
+
+Hive is one of the important tool in Hadoop eco system and it provides an SQL like dialect to Hadoop distributed file system.
+
+3. What are the features of Hive?
+
+Hive provides,
+
+Tools to enable easy data extract/transform/load (ETL)
+A mechanism to project structure on a variety of data formats
+Access to files stored either directly in HDFS or other data storage systems as HBase
+Query execution through MapReduce jobs.
+SQL like language called HiveQL that facilitates querying and managing large data sets residing in hadoop.
+
+
+
+Below are the limitations of Hive:
+
+Hive is best suited for data warehouse applications, where a large data set is maintained and mined for insights, reports, etc.
+Hive does not provide record-level update, insert, nor delete.
+Hive queries have higher latency than SQL queries, because of start-up overhead for MapReduce jobs submitted for each hive query.
+As Hadoop is a batch-oriented system, Hive doesn’t support OLTP (Online Transaction Processing).
+Hive is close to OLAP (Online Analytic Processing) but not ideal since there is significant latency between issuing a query and receiving a reply, both due to the overhead of Mapreduce jobs and due to the size of the data sets Hadoop was designed to serve.
+If we need OLAP, we need to use NoSQL databases like HBase that can be integrated with Hadoop.
+
+
+5. What is the differences Between Hive and HBase?
+
+Hive is not a database but a data warehousing frame work. Hive doesn’t provide record level operations on tables.
+
+HBase is a NoSQL Database and it provides record level updates, inserts and deletes to the table data.
+HBase doesn’t provide a query language like SQL, but Hive is now integrated with
+HBase.
+
+
+6. What is Hive Metastore?
+
+The metastore is the central repository of Hive metadata. The metastore is divided into two pieces: a service and the backing store for the data. By default, the metastore is run in the same process as the Hive service.  Using this service, it is possible to run the metastore as a standalone (remote) process. Set the METASTORE_PORT environment variable to specify the port the server will listen on.
+
+
+5. What is the differences Between Hive and HBase?
+
+Hive is not a database but a data warehousing frame work. Hive doesn’t provide record level operations on tables.
+
+HBase is a NoSQL Database and it provides record level updates, inserts and deletes to the table data.
+HBase doesn’t provide a query language like SQL, but Hive is now integrated with
+HBase.
+
+
+What is Hive Metastore?
+
+The metastore is the central repository of Hive metadata. The metastore is divided into two pieces: a service and the backing store for the data. By default, the metastore is run in the same process as the Hive service.  Using this service, it is possible to run the metastore as a standalone (remote) process. Set the METASTORE_PORT environment variable to specify the port the server will listen on.
+
+
+
+7. Wherever (Different Directory) we run hive query, it creates new metastore_db, please explain the reason for it?
+
+Whenever we run the hive in embedded mode, it creates the local metastore. And
+before creating the metastore it looks whether metastore already exist or not. This property is defined in configuration file hive-site.xml.
+
+Property is “javax.jdo.option.ConnectionURL” with default value “jdbc:derby:;databaseName=metastore_db;create=true”.
+
+So to change the behavior change the location to absolute path, so metastore will be used from that location.
+
+
+8. What are the different types of Hive Metastore?
+
+Below are three different types of metastore.
+
+Embedded Metastore
+Local Metastore
+Remote Metastore
+9. What is the default Hive warehouse directory?
+
+It is /user/hive/warehouse directory in local file system.
+
+
+10. How to start Hive Thrift server?
+
+We can issue below command from terminal to start Hive thrift server.
+
+$ hive –service hiveserver
+
+
+1. How to start Hive metastore service as a background process?
+
+We can start hive metastore service as a background process with below command.
+
+
+
+$ hive --service metastore &
+1
+2
+ 
+$ hive --service metastore &
+By using kill -9 <process id> we can stop this service.
+
+
+3. What is the need for partitioning in Hive?
+
+Partitioning is mainly intended for quick turn around time for queries on hive tables.
+
+
+
+4. We have already 3 tables named US,UK,IND in Hive. Now we have one more JPN created using hadoop fs -mkdir JPN. Can we move the content in IND to JPN directly?
+
+Yes, we can copy contents from hive warehouse directory table IND into JPN.
+
+
+5. Now we have to display the contents in US,UK,IND,JPN. By using SELECT * FROM TABLES is it possible to display?
+
+No, Because JPN is created by using fs -mkdir command. It is not part of metadata.
+
+
+6. Is it possible to use same metastore by multiple users, in case of embedded hive?
+
+No, it is not possible to use metastore in sharing mode. It is recommended to use
+standalone “real” database like MySQL or PostGreSQL.
+
+
+8. If we run hive as a server, what are the available mechanisms for connecting it from application?
+
+Below are following ways by which we can connect with the Hive Server:
+
+Thrift Client: Using thrift we can call hive commands from a various programming
+languages e.g: Java, PHP, Python and Ruby.
+JDBC Driver : It supports the Type 4 (pure Java) JDBC Driver
+ODBC Driver: It supports ODBC protocol.
+9. Is multi line comment supported in Hive Script ?
+
+No.
+
+A SerDe is a Serializer Deserializer. Hive uses SerDe to read and write data from tables. An important concept behind Hive is that it DOES NOT own the Hadoop File System (HDFS) format that data is stored in. Users are able to write files to HDFS with whatever tools/mechanism takes their fancy(“CREATE EXTERNAL TABLE” or “LOAD DATA INPATH,” ) and use Hive to correctly “parse” that file format in a way that can be used by Hive. A SerDe is a powerful and customizable mechanism that Hive uses to “parse” data stored in HDFS to be used by Hive.
+
+
+11. Which classes are used by the Hive to Read and Write HDFS Files?
+
+Following classes are used by Hive to read and write HDFS files
+
+TextInputFormat/HiveIgnoreKeyTextOutputFormat: These 2 classes read/write data in plain text file format.
+SequenceFileInputFormat/SequenceFileOutputFormat: These 2 classes read/write data in hadoop SequenceFile format.
+
+
+
+1. What are the types of tables in Hive?
+
+There are two types of tables.
+
+Managed tables
+External tables
+
+
+Only while dropping tables these two differentiates. Otherwise both type of tables are very similar.
+
+
+
+
+2. What kind of data warehouse application is suitable for Hive?
+
+Hive is not a full database. The design constraints and limitations of Hadoop and HDFS
+impose limits on what Hive can do.
+Hive is most suited for data warehouse applications, where
+
+Relatively static data is analyzed,
+Fast response times are not required, and
+When the data is not changing rapidly.
+
+
+3. Does Hive provide OLTP or OLAP?
+
+Hive doesn’t provide crucial features required for OLTP, Online Transaction Processing.
+It’s closer to being an OLAP tool, Online Analytic Processing. So, Hive is best suited for
+data warehouse applications, where a large data set is maintained and mined for insights, reports, etc.
+
+4. Does Hive support record level Insert, delete or update?
+
+No. Hive does not provide record-level update, insert, or delete. Henceforth, Hive does not
+provide transactions too. However, users can go with CASE statements and built in functions of Hive to satisfy the above DML operations. Thus, a complex update query in
+a RDBMS may need many lines of code in Hive.
+
+5. How can we change a column data type in Hive?
+
+We can use below command to alter data type of a column in hive.
+
+
+
+ALTER TABLE table_name CHANGE column_name column_name new_datatype;
+1
+
+
+ALTER TABLE table_name CHANGE column_name column_name new_datatype;
+
+
+7. How to rename a table in Hive?
+
+Using ALTER command with RENAME, we can rename a table in Hive.
+
+
+
+ALTER TABLE hive_table_name RENAME TO new_name;
+1
+2
+ 
+ALTER TABLE hive_table_name RENAME TO new_name;
+8. Is there any alternative way to rename a table without ALTER command?
+
+By using Import and export options we can be rename a table as shown below. Here we are saving the hive data into HDFS and importing back to new table like below.
+
+
+
+EXPORT TABLE tbl_name TO 'HDFS_location';
+IMPORT TABLE new_tbl_name FROM 'HDFS_location';
+1
+2
+3
+ 
+EXPORT TABLE tbl_name TO 'HDFS_location';
+IMPORT TABLE new_tbl_name FROM 'HDFS_location';
+If we prefer to just preserve the data, we can create a new table from old table like
+below.
+
+Shell
+
+
+CREATE TABLE new_tbl_name AS SELECT * FROM old_tbl_name;
+DROP TABLE old_tbl_name;
+1
+2
+3
+ 
+CREATE TABLE new_tbl_name AS SELECT * FROM old_tbl_name;
+DROP TABLE old_tbl_name;
+
+
+9. What is the difference between order by and sort by in hive?
+
+SORT BY will sort the data within each reducer. We can use any number of reducers
+for SORT BY operation.
+ORDER BY will sort all of the data together, which has to pass through one reducer.
+Thus, ORDER BY in hive uses single reducer.
+ORDER BY guarantees total order in the output while SORT BY only guarantees
+ordering of the rows within a reducer. If there is more than one reducer, SORT BY may give partially ordered final results
+
+
+10. What is Double data type in Hive?
+
+Double data type in Hive will present the data differently unlike RDBMS.
+See the double type data below:
+14324.0
+342556.0
+1.28893E4
+
+
+1. What is the Hive configuration precedence order?
+
+There is a precedence hierarchy to setting properties. In the following list, lower numbers take precedence over higher numbers:
+
+The Hive SET command
+The command line -hiveconf option
+hive-site.xml
+hive-default.xml
+hadoop-site.xml (or, equivalently, core-site.xml, hdfs-site.xml, and mapred-site.xml)
+hadoop-default.xml (or, equivalently, core-default.xml, hdfs-default.xml, and mapred-default.xml)
+2. How do change settings within Hive Session?
+
+We can change settings from within a session, too, using the SET command. This is useful for changing Hive or MapReduce job settings for a particular query. For example, the following command ensures buckets are populated according to the table definition.
+
+
+
+hive> SET hive.enforce.bucketing=true;
+1
+2
+ 
+hive> SET hive.enforce.bucketing=true;
+To see the current value of any property, use SET with just the property name:
+
+
+
+hive> SET hive.enforce.bucketing;
+hive.enforce.bucketing=true
+1
+2
+3
+ 
+hive> SET hive.enforce.bucketing;
+hive.enforce.bucketing=true
+By itself, SET will list all the properties and their values set by Hive. This list will not include Hadoop defaults, unless they have been explicitly overridden in one of the ways covered in the above answer. Use SET -v to list all the properties in the system, including Hadoop defaults.
+
+3. How to print header on Hive query results?
+
+We need to use following set command before our query to show column headers in STDOUT.
+
+
+
+hive> set hive.cli.print.header=true;
+1
+2
+ 
+hive> set hive.cli.print.header=true;
+
+
+
+4. How to get detailed description of a table in Hive?
+
+Use below hive command to get a detailed description of a hive table.
+
+Shell
+
+
+hive> describe extended <tablename>;
+1
+2
+ 
+hive> describe extended <tablename>;
+
+
+5. How to access sub directories recursively in Hive queries?
+
+To process directories recursively in Hive, we need to set below two commands in hive session. These two parameters work in conjunction.
+
+
+
+hive> Set mapred.input.dir.recursive=true;
+hive> Set hive.mapred.supports.subdirectories=true;
+1
+2
+3
+ 
+hive> Set mapred.input.dir.recursive=true;
+hive> Set hive.mapred.supports.subdirectories=true;
+Now hive tables can be pointed to the higher level directory. This is suitable for a scenario where the directory structure is as following: /data/country/state/city
+
+
+
+7. Is it possible to create multiple table in hive for same data?
+
+As hive creates schema and append on top of an existing data file. One can have multiple schema for one data file, schema will be saved in hive’s metastore and data will not be parsed or serialized to disk in given schema. When we will try to retrieve data, schema will be used. For example if we have 5 column (name, job, dob, id, salary) in the data file present in hive metastore then, we can have multiple schema by choosing any number of columns from the above list. (Table with 3 columns or 5 columns or 6 columns).
+
+But while querying, if we specify any column other than above list, will result in NULL values.
+
+8. What is the maximum size of string data type supported by Hive?
+
+Maximum size is 2 GB.
+
+
+9. What are the Binary Storage formats supported in Hive?
+
+By default Hive supports text file format, however hive also supports below binary formats.
+
+Sequence Files, Avro Data files, RCFiles, ORC files, Parquet files
+
+Sequence files: General binary format. splittable, compressible and row oriented. a typical example can be. if we have lots of small file, we may use sequence file as a container, where file name can be a key and content could stored as value. it support compression which enables huge gain in performance.
+
+Avro datafiles: Same as Sequence file splittable, compressible and row oriented except support of schema evolution and multilingual binding support.
+
+RCFiles: Record columnar file, it’s a column oriented storage file. it breaks table in row split. in each split stores that value of first row in first column and followed sub subsequently.
+
+ORC Files: Optimized Record Columnar files
+
+10. is HQL case sensitive?
+
+HQL is not case sensitive.
+
+
+
+Sqoop :
+
+1. What is Sqoop?
+Sqoop is an open source tool that enables users to transfer bulk data between Hadoop eco system and relational databases.
+
+
+
+2. What are the relational databases supported in Sqoop?
+Below are the list of RDBMSs that are supported by Sqoop Currently.
+
+MySQL
+PostGreSQL
+Oracle
+Microsoft SQL
+IBM’s Netezza
+Teradata
+3. What are the destination types allowed in Sqoop Import command?
+Currently Sqoop Supports data imported into below services.
+
+HDFS
+Hive
+HBase
+HCatalog
+Accumulo
+4. Is Sqoop similar to distcp in hadoop?
+Partially yes, hadoop’s distcp command is similar to Sqoop Import command. Both submits parallel map-only jobs but distcp is used to copy any type of files from Local FS/HDFS to HDFS and Sqoop is for transferring the data records only between RDMBS and Hadoop eco system services, HDFS, Hive and HBase.
+
+5. What are the majorly used commands in Sqoop?
+In Sqoop Majorly Import and export commands are used. But below commands are also useful some times.
+
+codegen
+eval
+import-all-tables
+job
+list-databases
+list-tables
+merge
+metastore
+6. When Importing tables from MySQL to what are the precautions that needs to be taken care w.r.t to access?
+In MySQL, we need to make sure that we have granted all privileges on the databases, that needs to be accessed, should be given to all users at destination hostname. If Sqoop is being run under localhost and MySQL is also present on the same then we can grant the permissions with below two commands from MySQL shell logged in with ROOT user.
+
+MySQL
+
+
+$ mysql -u root -p
+mysql> GRANT ALL PRIVILEGES ON *.* TO '%'@'localhost';
+mysql> GRANT ALL PRIVILEGES ON *.* TO ''@'localhost';
+1
+2
+3
+4
+ 
+$ mysql -u root -p
+mysql> GRANT ALL PRIVILEGES ON *.* TO '%'@'localhost';
+mysql> GRANT ALL PRIVILEGES ON *.* TO ''@'localhost';
+7. What if my MySQL server is running on MachineA and Sqoop is running on MachineB for the above question?
+From MachineA login to MySQL shell and perform the below command as root user. If using hostname of second machine, then that should be added to /etc/hosts file of first machine.
+
+MySQL
+
+
+$ mysql -u root -p
+mysql> GRANT ALL PRIVILEGES ON *.* TO '%'@'MachineB hostname or Ip address';
+mysql> GRANT ALL PRIVILEGES ON *.* TO ''@'MachineB hostname or Ip address';
+1
+2
+3
+4
+ 
+$ mysql -u root -p
+mysql> GRANT ALL PRIVILEGES ON *.* TO '%'@'MachineB hostname or Ip address';
+mysql> GRANT ALL PRIVILEGES ON *.* TO ''@'MachineB hostname or Ip address';
+8. How Many Mapreduce jobs and Tasks will be submitted for Sqoop copying into HDFS?
+For each sqoop copying into HDFS only one mapreduce job will be submitted with 4 map tasks. There will not be any reduce tasks scheduled.
+
+9. How can we control the parallel copying of RDBMS tables into hadoop ?
+We can control/increase/decrease speed of copying by configuring the number of map tasks to be run for each sqoop copying process. We can do this by providing argument -m 10 or  –num-mappers 10 argument to sqoop import command. If we specify -m 10 then it will submit 10 map tasks parallel at a time. Based on our requirement we can increase/decrease this number to control the copy speed.
+
+10. What is the criteria for specifying parallel copying in Sqoop with multiple parallel map tasks?
+To use multiple mappers in Sqoop, RDBMS table must have one primary key column (if present) in a table and the same will be used as split-by column in Sqoop process. If primary key is not present, we need to provide any unique key column or set of columns to form unique values and these should be provided to -split-by column argument.
+
+11. While loading tables from MySQL into HDFS, if we need to copy tables with maximum possible speed, what can you do ?
+We need to use –direct argument in import command to use direct import fast path and this –direct can be used only with MySQL and PostGreSQL as of now.
+
+12. What is the example connect string for Oracle database to import tables into HDFS?
+We need to use Oracle JDBC Thin driver while connecting to Oracle database via Sqoop. Below is the sample import command to pull table employees from oracle database testdb.
+
+MySQL
+
+
+sqoop import \
+--connect jdbc:oracle:thin:@oracle.example.com/testdb \
+--username SQOOP \
+--password sqoop \
+--table employees
+
+sqoop import \
+--connect jdbc:oracle:thin:@oracle.example.com/testdb \
+--username SQOOP \
+--password sqoop \
+--table employees
+13. While connecting to MySQL through Sqoop, I am getting Connection Failure exception what might be the root cause and fix for this error scenario?
+This might be due to insufficient permissions to access your MySQL database over the network. To confirm this we can try the below command to connect to MySQL database from Sqoop’s client machine.
+
+
+
+
+http://hadooptutorial.info/sqoop-interview-cheat-sheet/
+
